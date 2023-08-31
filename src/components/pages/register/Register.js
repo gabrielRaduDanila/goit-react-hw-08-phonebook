@@ -9,9 +9,9 @@ const onFinishFailed = errorInfo => {
 };
 
 const Register = () => {
+  // const [form] = Form.useForm();
   const dispatch = useDispatch();
   const onFinish = values => {
-    console.log(values);
     dispatch(
       register({
         name: values.name,
@@ -19,10 +19,12 @@ const Register = () => {
         password: values.password,
       })
     );
+    // form.resetFields();
   };
 
   return (
     <Form
+      // form={form}
       name="basic"
       labelCol={{
         span: 8,
@@ -77,7 +79,7 @@ const Register = () => {
           },
         ]}
       >
-        <Input.Password minlength="8" />
+        <Input.Password minLength={8} />
       </Form.Item>
 
       <Form.Item

@@ -5,6 +5,7 @@ import Loading from 'components/loading/Loading';
 import { AiOutlineHome } from 'react-icons/ai';
 import { useAuth } from 'hooks';
 import AuthNav from 'components/auth-nav/AuthNav';
+import UserMenu from 'components/user-menu/UserMenu';
 
 const SharedLayout = () => {
   const { isLoggedIn } = useAuth();
@@ -15,18 +16,7 @@ const SharedLayout = () => {
         <NavLink to="/">
           <AiOutlineHome className={style.homeIcon} />
         </NavLink>
-        {!isLoggedIn && <AuthNav />}
-
-        {/* <nav>
-          <ul>
-            <li>
-              <NavLink to="/">Home</NavLink>
-            </li>
-            <li>
-              <NavLink to="/movies">Movies</NavLink>
-            </li>
-          </ul>
-        </nav> */}
+        {isLoggedIn ? <UserMenu /> : <AuthNav />}
       </header>
       <Suspense fallback={<Loading />}>
         <Outlet />

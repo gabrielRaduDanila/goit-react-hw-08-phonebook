@@ -7,14 +7,22 @@ import { RestrictedRoute } from './RestrictedRoute';
 import Contacts from './pages/contacts/Contacts';
 import { PrivateRoute } from './PrivateRoute';
 import { refreshUser } from 'features/auth/operations';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { useAuth } from 'hooks';
 
 export const App = () => {
+  // const store = useSelector(store => store);
+  // console.log(store);
+  const { isRefreshing } = useAuth();
   const dispatch = useDispatch();
-  useEffect(() => dispatch(refreshUser()), [dispatch]);
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
 
-  return (
+  return isRefreshing ? (
+    <h2>is refreshing user...</h2>
+  ) : (
     <Routes>
       <Route path="/" element={<SharedLayout />}>
         <Route index element={<HomePage />} />

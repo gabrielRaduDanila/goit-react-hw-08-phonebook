@@ -1,5 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { register } from './operations';
+import {
+  register,
+  refreshUser,
+  addNewContact,
+  deleteContact,
+  editContact,
+  fetchContacts,
+  logOut,
+} from './operations';
 
 const initialState = {
   user: { name: null, email: null },
@@ -7,8 +15,9 @@ const initialState = {
   isLoggedIn: false,
   isRefreshing: false,
   isLoading: false,
-  contacts: null,
+  contacts: [],
   isError: false,
+  filter: null,
 };
 
 const authSlice = createSlice({
@@ -22,7 +31,62 @@ const authSlice = createSlice({
       .addCase(register.fulfilled, (state, action) => {
         state.user = action.payload.user;
         state.token = action.payload.token;
+        state.isLoading = false;
         state.isLoggedIn = true;
+      })
+      .addCase(refreshUser.pending, state => {
+        state.isRefreshing = true;
+      })
+      .addCase(refreshUser.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.isLoggedIn = true;
+        state.isRefreshing = false;
+      })
+      .addCase(refreshUser.rejected, state => {
+        state.isRefreshing = false;
+      })
+      .addCase(addNewContact.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(addNewContact.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.contacts.push(action.payload);
+      })
+      .addCase(deleteContact.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(deleteContact.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const id = action.payload.id;
+        const newContacts = state.contacts.filter(contact => contact.id !== id);
+        state.contacts = newContacts;
+      })
+      .addCase(editContact.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(editContact.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const id = action.payload.id;
+        state.contacts.forEach(contact => {
+          if (contact.id === id) {
+            contact.name = action.payload.name;
+            contact.number = action.payload.number;
+          }
+        });
+      })
+      .addCase(fetchContacts.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(fetchContacts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.contacts = action.payload;
+      })
+      .addCase(logOut.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(logOut.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state = initialState;
       });
   },
 });
