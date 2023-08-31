@@ -1,0 +1,24 @@
+.container {
+  max-width: 1200px;
+}
+
+.phonebookHeader {
+  background-color: lightgrey;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  /* Adding a subtle shadow */
+  padding: 20px;
+  color: black;
+  /* Text color */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.homeIcon {
+  font-size: 24px;
+  color: blue;
+}
+
+.homeIcon:hover {
+  cursor: pointer;
+}
