@@ -1,0 +1,17 @@
+p {
+  text-align: center;
+}
+
+.link {
+  display: inline-block;
+  text-decoration: none;
+  padding: 12px;
+  font-weight: 700;
+  color: blue;
+  font-size: 18px;
+  text-transform: capitalize;
+}
+
+.link:hover {
+  color: #e84a5f;
+}

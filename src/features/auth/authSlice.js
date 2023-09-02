@@ -7,6 +7,7 @@ import {
   editContact,
   fetchContacts,
   logOut,
+  login,
 } from './operations';
 
 const initialState = {
@@ -23,6 +24,12 @@ const initialState = {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
+  reducers: {
+    addFilter: (state, { payload }) => {
+      const { typedName } = payload;
+      state.filter = typedName;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(register.pending, state => {
@@ -86,9 +93,21 @@ const authSlice = createSlice({
       })
       .addCase(logOut.fulfilled, (state, action) => {
         state.isLoading = false;
-        state = initialState;
+        state.user = { name: null, email: null };
+        state.token = null;
+        state.isLoggedIn = false;
+      })
+      .addCase(login.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+        state.isLoading = false;
+        state.isLoggedIn = true;
       });
   },
 });
 
 export const authReducer = authSlice.reducer;
+export const { addFilter } = authSlice.actions;

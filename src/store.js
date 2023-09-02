@@ -1,7 +1,7 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import {
-  persistStore,
   persistReducer,
+  persistStore,
   FLUSH,
   REHYDRATE,
   PAUSE,
@@ -10,52 +10,30 @@ import {
   REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+
 import { authReducer } from 'features/auth/authSlice';
 import modalReducer from './features/modal/modalSlice';
 
-// const authPersistConfig = {
-//   key: 'auth',
-//   storage,
-//   whitelist: ['token'],
-// };
-
 const persistConfig = {
-  key: 'root',
+  key: 'auth',
   storage,
-  // whitelist: ['token'],
+  whitelist: ['token'],
 };
 
-const persistedReducer = persistReducer(
-  persistConfig,
-  combineReducers({
-    auth: authReducer,
-    modal: modalReducer,
-  })
-);
-
-// export const store = configureStore({
-//   reducer: {
-//     auth: persistReducer(authPersistConfig, authReducer),
-//     modal: modalReducer,
-//   },
-//   middleware: getDefaultMiddleware =>
-//     getDefaultMiddleware({
-//       serializableCheck: {
-//         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-//       },
-//     }),
-//   devTools: process.env.NODE_ENV === 'development',
-// });
+const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: {
+    auth: persistedAuthReducer,
+    modal: modalReducer,
+  },
+
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
-  devTools: process.env.NODE_ENV === 'development',
 });
 
 export const persistor = persistStore(store);

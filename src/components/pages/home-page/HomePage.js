@@ -1,7 +1,6 @@
-import './home-page.css';
 import { useAuth } from 'hooks';
 import { Link } from 'react-router-dom';
-import css from '../../auth-nav/AuthNav.module.css';
+import css from './HomePage.module.css';
 
 const HomePage = () => {
   const { isLoggedIn, user } = useAuth();
@@ -9,9 +8,9 @@ const HomePage = () => {
     <main>
       {isLoggedIn ? (
         <p>
-          {user.name}, to see the list of contacts, go to the{' '}
-          <Link className={css.link} to="/contacts">
-            contacts
+          {user.name}, to see the list of contacts go to the{' '}
+          <Link to="/contacts">
+            <span className={css.link}>contacts</span>
           </Link>
         </p>
       ) : (

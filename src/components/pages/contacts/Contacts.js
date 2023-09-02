@@ -8,21 +8,28 @@ import Modal from 'components/modal/Modal';
 import EditModal from 'components/modal/EditModal';
 import { useEffect } from 'react';
 import { fetchContacts } from 'features/auth/operations';
+import Filter from 'components/filter/Filter';
+import { selectFilter } from 'features/auth/selectors';
 
 const Contacts = () => {
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(fetchContacts());
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
   const contacts = useSelector(selectContacts);
+  const filter = useSelector(selectFilter);
+
   const { isOpen, modalFor } = useModal();
   return (
     <main className="contacts-main">
       <AddContact />
       {contacts.length > 0 && <ContactList />}
+      {contacts.length > 1 && <Filter />}
       {isOpen && modalFor === 'delete' && <Modal />}
       {isOpen && modalFor === 'edit' && <EditModal />}
+      {filter && contacts.length === 0 && filter.length === 0 && (
+        <h3>Add contacts to be displayed</h3>
+      )}
     </main>
   );
 };

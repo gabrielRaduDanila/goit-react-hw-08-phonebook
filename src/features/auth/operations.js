@@ -4,6 +4,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
 // Utility to add JWT
+
 const setAuthHeader = token => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
@@ -36,27 +37,21 @@ export const register = createAsyncThunk(
  * headers: Authorization: Bearer token
  */
 export const refreshUser = createAsyncThunk(
-  'auth/refresh',
+  'auth/refreshUser',
   async (_, thunkAPI) => {
-    console.log(axios.defaults.headers);
-    // Reading the token from the state via getState()
-    const state = thunkAPI.getState();
-    const persistedToken = state.auth.token;
-
-    if (persistedToken === null) {
-      // If there is no token, exit without performing any request
-      return thunkAPI.rejectWithValue('Unable to fetch user');
+    const {
+      auth: { token },
+    } = thunkAPI.getState();
+    if (!token) {
+      return thunkAPI.rejectWithValue('Unable to fetsh user.');
     }
 
     try {
-      // If there is a token, add it to the HTTP header and perform the request
-      setAuthHeader(persistedToken);
-      const res = await axios.get('/users/current');
-      console.log(axios.defaults.headers);
-
-      return res.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      setAuthHeader(token);
+      const response = await axios.get('/users/current');
+      return response.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message);
     }
   }
 );
@@ -89,6 +84,7 @@ export const addNewContact = createAsyncThunk(
   'contacts/addContact',
   async (credentials, thunkAPI) => {
     try {
+      console.log(axios.defaults.headers);
       const res = await axios.post('/contacts', credentials);
       return res.data;
     } catch (error) {
@@ -132,6 +128,22 @@ export const logOut = createAsyncThunk(
       clearAuthHeader();
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const login = createAsyncThunk(
+  'contacts/login',
+  async (credentials, thunkAPI) => {
+    try {
+      const response = await axios.post('/users/login', credentials);
+      setAuthHeader(response.data.token);
+      return response.data;
+    } catch (err) {
+      if (err.message === 'Request failed with status code 400') {
+        return thunkAPI.rejectWithValue(err.message);
+      }
+      return thunkAPI.rejectWithValue(err.message);
     }
   }
 );

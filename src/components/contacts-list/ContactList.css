@@ -3,21 +3,27 @@
 }
 
 .contacts-list {
-  list-style-type: disc;
+  margin-top: 20px;
   width: 400px;
-  max-width: 100%;
+  max-width: 90%;
 }
 
-.contacts-list li {
+.contact {
+  width: 100%;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   justify-content: space-between;
-  width: 100%;
+  margin-bottom: 10px;
 }
 
 .contacts-list li span {
   font-weight: 700;
   font-size: 18px;
+}
+
+.btns-container {
+  margin-left: 30px;
 }
 
 .remove-button,
@@ -51,11 +57,4 @@
 
 .remove-button:active {
   transform: translateY(1px);
-}
-
-.contact {
-  max-width: 100%;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
 }
