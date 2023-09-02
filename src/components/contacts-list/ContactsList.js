@@ -9,6 +9,8 @@ import {
 import { selectContacts, selectFilter } from 'features/auth/selectors';
 import { FiEdit2 } from 'react-icons/fi';
 import { AiFillDelete } from 'react-icons/ai';
+import NoResultFound from 'components/no-result-found/NoResultFound';
+import { useState } from 'react';
 
 const findFilteredContacts = (contacts, filter) => {
   const typedName = filter.toLowerCase();
@@ -22,12 +24,18 @@ const ContactList = () => {
   const contacts = useSelector(selectContacts);
   const filter = useSelector(selectFilter);
   const dispatch = useDispatch();
+  const [closeNoResult, setCloseNoResult] = useState(true);
 
   const contactsToDisplay = filter
     ? findFilteredContacts(contacts, filter)
     : contacts;
 
-  return (
+  return filter &&
+    filter.length > 0 &&
+    contactsToDisplay.length === 0 &&
+    closeNoResult ? (
+    <NoResultFound setCloseNoResult={setCloseNoResult} />
+  ) : (
     <div className="display-contacts">
       <h2>Contacts</h2>
       <ul className="contacts-list">

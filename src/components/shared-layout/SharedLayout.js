@@ -1,4 +1,4 @@
-import style from './SharedLayout.module.css';
+import './SharedLayout.css';
 import { NavLink, Outlet } from 'react-router-dom';
 import { Suspense } from 'react';
 import Loading from 'components/loading/Loading';
@@ -11,10 +11,10 @@ const SharedLayout = () => {
   const { isLoggedIn } = useAuth();
 
   return (
-    <div className={style.container}>
-      <header className={style.phonebookHeader}>
+    <div className="container">
+      <header className="phonebookHeader">
         <NavLink to="/">
-          <AiOutlineHome className={style.homeIcon} />
+          <AiOutlineHome className="homeIcon" />
         </NavLink>
         {isLoggedIn ? <UserMenu /> : <AuthNav />}
       </header>

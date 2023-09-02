@@ -15,8 +15,6 @@ import ErrorPage from './pages/error-page/ErrorPage';
 import Loading from './loading/Loading';
 
 export const App = () => {
-  // const store = useSelector(store => store);
-  // console.log(store);
   const { isRefreshing } = useAuth();
   const dispatch = useDispatch();
   useEffect(() => {

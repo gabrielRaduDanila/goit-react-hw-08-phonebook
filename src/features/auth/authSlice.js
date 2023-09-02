@@ -18,7 +18,8 @@ const initialState = {
   isLoading: false,
   contacts: [],
   isError: false,
-  filter: null,
+  filter: '',
+  errorMessage: null,
 };
 
 const authSlice = createSlice({
@@ -28,6 +29,9 @@ const authSlice = createSlice({
     addFilter: (state, { payload }) => {
       const { typedName } = payload;
       state.filter = typedName;
+    },
+    resetError: state => {
+      state.isError = false;
     },
   },
   extraReducers: builder => {
@@ -40,6 +44,11 @@ const authSlice = createSlice({
         state.token = action.payload.token;
         state.isLoading = false;
         state.isLoggedIn = true;
+      })
+      .addCase(register.rejected, (state, action) => {
+        state.isError = true;
+        state.errorMessage = action.payload;
+        state.isLoading = false;
       })
       .addCase(refreshUser.pending, state => {
         state.isRefreshing = true;
@@ -59,6 +68,11 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.contacts.push(action.payload);
       })
+      .addCase(addNewContact.rejected, (state, action) => {
+        state.isError = true;
+        state.errorMessage = action.payload;
+        state.isLoading = false;
+      })
       .addCase(deleteContact.pending, state => {
         state.isLoading = true;
       })
@@ -67,6 +81,11 @@ const authSlice = createSlice({
         const id = action.payload.id;
         const newContacts = state.contacts.filter(contact => contact.id !== id);
         state.contacts = newContacts;
+      })
+      .addCase(deleteContact.rejected, (state, action) => {
+        state.isError = true;
+        state.errorMessage = action.payload;
+        state.isLoading = false;
       })
       .addCase(editContact.pending, state => {
         state.isLoading = true;
@@ -81,12 +100,22 @@ const authSlice = createSlice({
           }
         });
       })
+      .addCase(editContact.rejected, (state, action) => {
+        state.isError = true;
+        state.errorMessage = action.payload;
+        state.isLoading = false;
+      })
       .addCase(fetchContacts.pending, state => {
         state.isLoading = true;
       })
       .addCase(fetchContacts.fulfilled, (state, action) => {
         state.isLoading = false;
         state.contacts = action.payload;
+      })
+      .addCase(fetchContacts.rejected, (state, action) => {
+        state.isError = true;
+        state.errorMessage = action.payload;
+        state.isLoading = false;
       })
       .addCase(logOut.pending, state => {
         state.isLoading = true;
@@ -97,6 +126,11 @@ const authSlice = createSlice({
         state.token = null;
         state.isLoggedIn = false;
       })
+      .addCase(logOut.rejected, (state, action) => {
+        state.isError = true;
+        state.errorMessage = action.payload;
+        state.isLoading = false;
+      })
       .addCase(login.pending, state => {
         state.isLoading = true;
       })
@@ -105,9 +139,14 @@ const authSlice = createSlice({
         state.token = action.payload.token;
         state.isLoading = false;
         state.isLoggedIn = true;
+      })
+      .addCase(login.rejected, (state, action) => {
+        state.isError = true;
+        state.errorMessage = action.payload;
+        state.isLoading = false;
       });
   },
 });
 
 export const authReducer = authSlice.reducer;
-export const { addFilter } = authSlice.actions;
+export const { addFilter, resetError } = authSlice.actions;
