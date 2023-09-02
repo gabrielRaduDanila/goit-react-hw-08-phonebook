@@ -6,14 +6,14 @@ import { refreshUser } from 'features/auth/operations';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { useAuth } from 'hooks';
-
+import Loading from './loading/Loading'
 const HomePage = lazy(() => import('./pages/home-page/HomePage'));
 const Register = lazy(() => import('./pages/register/Register'));
 const Login = lazy(() => import('./pages/login/Login'));
 const Contacts = lazy(() => import('./pages/contacts/Contacts'));
 const SharedLayout = lazy(() => import('./shared-layout/SharedLayout'));
 const ErrorPage = lazy(() => import('./pages/error-page/ErrorPage'));
-const Loading = lazy(() => import('./loading/Loading'));
+//const Loading = lazy(() => import('./loading/Loading'));
 
 export const App = () => {
   const { isRefreshing } = useAuth();
