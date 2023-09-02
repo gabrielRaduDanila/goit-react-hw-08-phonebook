@@ -9,8 +9,11 @@ import {
 import { selectContacts, selectFilter } from 'features/auth/selectors';
 import { FiEdit2 } from 'react-icons/fi';
 import { AiFillDelete } from 'react-icons/ai';
-import NoResultFound from 'components/no-result-found/NoResultFound';
 import { useState } from 'react';
+import { lazy } from 'react';
+const NoResultFound = lazy(() =>
+  import('components/no-result-found/NoResultFound')
+);
 
 const findFilteredContacts = (contacts, filter) => {
   const typedName = filter.toLowerCase();

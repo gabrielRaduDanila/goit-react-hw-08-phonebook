@@ -1,18 +1,19 @@
-// import { lazy } from 'react';
+import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import SharedLayout from './shared-layout/SharedLayout';
-import HomePage from './pages/home-page/HomePage';
-import Register from './pages/register/Register';
-import Login from './pages/login/Login';
 import { RestrictedRoute } from './RestrictedRoute';
-import Contacts from './pages/contacts/Contacts';
 import { PrivateRoute } from './PrivateRoute';
 import { refreshUser } from 'features/auth/operations';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { useAuth } from 'hooks';
-import ErrorPage from './pages/error-page/ErrorPage';
-import Loading from './loading/Loading';
+
+const HomePage = lazy(() => import('./pages/home-page/HomePage'));
+const Register = lazy(() => import('./pages/register/Register'));
+const Login = lazy(() => import('./pages/login/Login'));
+const Contacts = lazy(() => import('./pages/contacts/Contacts'));
+const SharedLayout = lazy(() => import('./shared-layout/SharedLayout'));
+const ErrorPage = lazy(() => import('./pages/error-page/ErrorPage'));
+const Loading = lazy(() => import('./loading/Loading'));
 
 export const App = () => {
   const { isRefreshing } = useAuth();

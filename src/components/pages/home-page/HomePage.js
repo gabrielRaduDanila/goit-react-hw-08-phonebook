@@ -1,9 +1,14 @@
 import { useAuth } from 'hooks';
 import { Link } from 'react-router-dom';
 import css from './HomePage.module.css';
+import { lazy } from 'react';
 import { useLoadingAndError } from 'hooks/useLoadingAndError';
-import ErrorMessage from 'components/error-message/ErrorMessage';
-import LoadingSpinner from 'components/loading-spinner/LoadingSpinner';
+const ErrorMessage = lazy(() =>
+  import('components/error-message/ErrorMessage')
+);
+const LoadingSpinner = lazy(() =>
+  import('components/loading-spinner/LoadingSpinner')
+);
 
 const HomePage = () => {
   const { isLoggedIn, user } = useAuth();
