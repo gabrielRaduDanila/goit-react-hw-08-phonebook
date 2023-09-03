@@ -7,18 +7,12 @@ import { useEffect } from 'react';
 import { fetchContacts } from 'features/auth/operations';
 import { selectFilter } from 'features/auth/selectors';
 import { useLoadingAndError } from 'hooks/useLoadingAndError';
-import { lazy } from 'react';
-
-const Modal = lazy(() => import('components/modal/Modal'));
-const EditModal = lazy(() => import('components/modal/EditModal'));
-const Filter = lazy(() => import('components/filter/Filter'));
-const ContactList = lazy(() => import('components/contacts-list/ContactsList'));
-const ErrorMessage = lazy(() =>
-  import('components/error-message/ErrorMessage')
-);
-const LoadingSpinner = lazy(() =>
-  import('components/loading-spinner/LoadingSpinner')
-);
+import Modal from 'components/modal/Modal';
+import EditModal from 'components/modal/EditModal';
+import Filter from 'components/filter/Filter';
+import ContactList from 'components/contacts-list/ContactsList';
+import ErrorMessage from 'components/error-message/ErrorMessage';
+import LoadingSpinner from 'components/loading-spinner/LoadingSpinner';
 
 const Contacts = () => {
   const dispatch = useDispatch();

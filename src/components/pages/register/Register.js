@@ -3,13 +3,8 @@ import { register } from 'features/auth/operations';
 import './register.css';
 import { useLoadingAndError } from 'hooks/useLoadingAndError';
 import { Button, Form, Input } from 'antd';
-import { lazy } from 'react';
-const ErrorMessage = lazy(() =>
-  import('components/error-message/ErrorMessage')
-);
-const LoadingSpinner = lazy(() =>
-  import('components/loading-spinner/LoadingSpinner')
-);
+import ErrorMessage from 'components/error-message/ErrorMessage';
+import LoadingSpinner from 'components/loading-spinner/LoadingSpinner';
 
 const onFinishFailed = errorInfo => {
   console.log('Failed:', errorInfo);
