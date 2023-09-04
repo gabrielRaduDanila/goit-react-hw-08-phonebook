@@ -39,6 +39,8 @@ const Register = () => {
         style={{
           maxWidth: 600,
           marginTop: 30,
+          padding: 20,
+          margin: 'auto',
         }}
         initialValues={{
           remember: true,
